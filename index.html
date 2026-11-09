@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>
-    </title>
+  <title>HayChess</title>
   <style>
     * {
       margin: 0;
@@ -14,16 +13,16 @@
     }
 
     body {
-      background-color: #0f0f0f;
-      color: #e0e0e0;
+      background-color: #0a0f1a;          /* deep black with navy tint */
+      color: #e8f4ff;                    /* soft ice white */
       min-height: 100vh;
     }
 
     /* Header */
     header {
-      background-color: #1a1a1a;
+      background-color: #0d1524;         /* slightly lighter navy-black */
       padding: 20px 40px;
-      border-bottom: 1px solid #333;
+      border-bottom: 1px solid #1a2a40;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -32,18 +31,18 @@
     .logo {
       font-size: 1.6rem;
       font-weight: 700;
-      color: #fff;
+      color: #f0f7ff;
     }
 
     .logo span {
-      color: #4ade80;
+      color: #7dd3fc;                    /* ice blue */
     }
 
     /* Tabs Navigation */
     .tabs {
       display: flex;
-      background-color: #1a1a1a;
-      border-bottom: 1px solid #333;
+      background-color: #0d1524;
+      border-bottom: 1px solid #1a2a40;
       padding: 0 20px;
       gap: 8px;
     }
@@ -51,7 +50,7 @@
     .tab-btn {
       background: none;
       border: none;
-      color: #aaa;
+      color: #94a3b8;
       padding: 16px 24px;
       font-size: 1rem;
       cursor: pointer;
@@ -60,13 +59,13 @@
     }
 
     .tab-btn:hover {
-      color: #fff;
-      background-color: #252525;
+      color: #e0f2fe;
+      background-color: #132033;
     }
 
     .tab-btn.active {
-      color: #4ade80;
-      border-bottom: 3px solid #4ade80;
+      color: #7dd3fc;
+      border-bottom: 3px solid #7dd3fc;
     }
 
     /* Content Area */
@@ -93,18 +92,23 @@
     h1 {
       font-size: 2.2rem;
       margin-bottom: 16px;
-      color: #fff;
+      color: #f0f7ff;
+    }
+
+    h2 {
+      color: #bae6fd;
+      margin-bottom: 12px;
     }
 
     p {
       line-height: 1.7;
-      color: #bbb;
+      color: #cbd5e1;
       margin-bottom: 16px;
     }
 
     .card {
-      background-color: #1a1a1a;
-      border: 1px solid #333;
+      background-color: #0f1a2b;         /* navy-tinted card */
+      border: 1px solid #1e3a5f;
       border-radius: 12px;
       padding: 24px;
       margin-top: 24px;
@@ -112,18 +116,19 @@
 
     .btn {
       display: inline-block;
-      background-color: #4ade80;
-      color: #000;
+      background-color: #38bdf8;         /* bright ice blue */
+      color: #0a0f1a;
       padding: 12px 28px;
       border-radius: 8px;
       text-decoration: none;
       font-weight: 600;
       margin-top: 16px;
-      transition: background 0.2s;
+      transition: background 0.2s, transform 0.15s;
     }
 
     .btn:hover {
-      background-color: #22c55e;
+      background-color: #7dd3fc;
+      transform: translateY(-1px);
     }
   </style>
 </head>
@@ -135,10 +140,10 @@
 
   <!-- Tabs -->
   <div class="tabs">
-    <button class="tab-btn active" onclick="openTab('home')">Home</button>
-    <button class="tab-btn" onclick="openTab('play')">Play</button>
-    <button class="tab-btn" onclick="openTab('learn')">Learn</button>
-    <button class="tab-btn" onclick="openTab('about')">About</button>
+    <button class="tab-btn active" onclick="openTab('home', event)">Home</button>
+    <button class="tab-btn" onclick="openTab('play', event)">Play</button>
+    <button class="tab-btn" onclick="openTab('learn', event)">Learn</button>
+    <button class="tab-btn" onclick="openTab('about', event)">About</button>
   </div>
 
   <!-- Tab Contents -->
@@ -147,12 +152,12 @@
     <!-- Home Tab -->
     <div id="home" class="tab-content active">
       <h1>Welcome to HayChess</h1>
-      <p>A simple dark-themed chess website. Play against others and improve your skills.</p>
+      <p>A clean ice-themed chess website. Play against others and improve your skills.</p>
       
       <div class="card">
         <h2>Quick Start</h2>
         <p>Click the <strong>Play</strong> tab to start a game, or go to <strong>Learn</strong> for tutorials and puzzles.</p>
-        <a href="#" class="btn" onclick="openTab('play')">Start Playing</a>
+        <a href="#" class="btn" onclick="openTab('play', event)">Start Playing</a>
       </div>
     </div>
 
@@ -190,12 +195,12 @@
     <!-- About Tab -->
     <div id="about" class="tab-content">
       <h1>About</h1>
-      <p>This is a simple dark-themed website built with HTML, CSS, and JavaScript.</p>
+      <p>This is a simple ice-blue & navy themed website built with HTML, CSS, and JavaScript.</p>
       
       <div class="card">
         <h2>Tech Stack</h2>
         <p>• HTML5</p>
-        <p>• CSS3 (Dark Theme)</p>
+        <p>• CSS3 (Ice / Navy Theme)</p>
         <p>• Vanilla JavaScript</p>
         <p>Perfect starting point for a multiplayer chess site.</p>
       </div>
@@ -204,7 +209,7 @@
   </div>
 
   <script>
-    function openTab(tabName) {
+    function openTab(tabName, event) {
       // Hide all tab contents
       const contents = document.querySelectorAll('.tab-content');
       contents.forEach(content => content.classList.remove('active'));
@@ -217,7 +222,7 @@
       document.getElementById(tabName).classList.add('active');
 
       // Add active class to the clicked button
-      event.target.classList.add('active');
+      event.currentTarget.classList.add('active');
     }
   </script>
 
