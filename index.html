@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chess Hub - Dark Theme</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+    }
+
+    body {
+      background-color: #0f0f0f;
+      color: #e0e0e0;
+      min-height: 100vh;
+    }
+
+    /* Header */
+    header {
+      background-color: #1a1a1a;
+      padding: 20px 40px;
+      border-bottom: 1px solid #333;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .logo span {
+      color: #4ade80;
+    }
+
+    /* Tabs Navigation */
+    .tabs {
+      display: flex;
+      background-color: #1a1a1a;
+      border-bottom: 1px solid #333;
+      padding: 0 20px;
+      gap: 8px;
+    }
+
+    .tab-btn {
+      background: none;
+      border: none;
+      color: #aaa;
+      padding: 16px 24px;
+      font-size: 1rem;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn:hover {
+      color: #fff;
+      background-color: #252525;
+    }
+
+    .tab-btn.active {
+      color: #4ade80;
+      border-bottom: 3px solid #4ade80;
+    }
+
+    /* Content Area */
+    .content {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 16px;
+      color: #fff;
+    }
+
+    p {
+      line-height: 1.7;
+      color: #bbb;
+      margin-bottom: 16px;
+    }
+
+    .card {
+      background-color: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 12px;
+      padding: 24px;
+      margin-top: 24px;
+    }
+
+    .btn {
+      display: inline-block;
+      background-color: #4ade80;
+      color: #000;
+      padding: 12px 28px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      margin-top: 16px;
+      transition: background 0.2s;
+    }
+
+    .btn:hover {
+      background-color: #22c55e;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">Chess<span>Hub</span></div>
+  </header>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="openTab('home')">Home</button>
+    <button class="tab-btn" onclick="openTab('play')">Play</button>
+    <button class="tab-btn" onclick="openTab('learn')">Learn</button>
+    <button class="tab-btn" onclick="openTab('about')">About</button>
+  </div>
+
+  <!-- Tab Contents -->
+  <div class="content">
+
+    <!-- Home Tab -->
+    <div id="home" class="tab-content active">
+      <h1>Welcome to ChessHub</h1>
+      <p>A simple dark-themed chess website. Play against others and improve your skills.</p>
+      
+      <div class="card">
+        <h2>Quick Start</h2>
+        <p>Click the <strong>Play</strong> tab to start a game, or go to <strong>Learn</strong> for tutorials and puzzles.</p>
+        <a href="#" class="btn" onclick="openTab('play')">Start Playing</a>
+      </div>
+    </div>
+
+    <!-- Play Tab -->
+    <div id="play" class="tab-content">
+      <h1>Play Chess</h1>
+      <p>Challenge a friend or find an opponent online.</p>
+      
+      <div class="card">
+        <h2>Game Modes</h2>
+        <p>• Play with Friend (share link)</p>
+        <p>• Quick Match</p>
+        <p>• Play vs Computer</p>
+        <br>
+        <a href="#" class="btn">Create Game</a>
+      </div>
+    </div>
+
+    <!-- Learn Tab -->
+    <div id="learn" class="tab-content">
+      <h1>Learn Chess</h1>
+      <p>Improve your game with lessons and puzzles.</p>
+      
+      <div class="card">
+        <h2>Learning Paths</h2>
+        <p>• Piece Movement</p>
+        <p>• Basic Tactics (Forks, Pins, Skewers)</p>
+        <p>• Opening Principles</p>
+        <p>• Endgame Basics</p>
+        <br>
+        <a href="#" class="btn">Start Learning</a>
+      </div>
+    </div>
+
+    <!-- About Tab -->
+    <div id="about" class="tab-content">
+      <h1>About</h1>
+      <p>This is a simple dark-themed website built with HTML, CSS, and JavaScript.</p>
+      
+      <div class="card">
+        <h2>Tech Stack</h2>
+        <p>• HTML5</p>
+        <p>• CSS3 (Dark Theme)</p>
+        <p>• Vanilla JavaScript</p>
+        <p>Perfect starting point for a multiplayer chess site.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function openTab(tabName) {
+      // Hide all tab contents
+      const contents = document.querySelectorAll('.tab-content');
+      contents.forEach(content => content.classList.remove('active'));
+
+      // Remove active class from all buttons
+      const buttons = document.querySelectorAll('.tab-btn');
+      buttons.forEach(btn => btn.classList.remove('active'));
+
+      // Show the selected tab
+      document.getElementById(tabName).classList.add('active');
+
+      // Add active class to the clicked button
+      event.target.classList.add('active');
+    }
+  </script>
+
+</body>
+</html>
