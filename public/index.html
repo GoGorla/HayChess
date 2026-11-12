@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HayChess</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css?v=8">
+</head>
+<body>
+<div class="app">
+  <nav class="side">
+    <button class="logo" id="logo" type="button"><svg viewBox="0 0 40 44" class="hex"><path d="M20 2l16 9v22l-16 9L4 33V11z"/><text x="20" y="29" text-anchor="middle">Հ</text></svg><b>Hay<span>Chess</span></b></button>
+    <button class="nav-btn active" data-tab="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8v9h-6v-6H9v6H3z"/></svg><span>Home</span></button>
+    <button class="nav-btn" data-tab="play"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 5v14l11-7z"/></svg><span>Play</span></button>
+    <button class="nav-btn" data-tab="bots"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8h10v9H7zM12 4v4M9.5 12h.01M14.5 12h.01"/></svg><span>Bots</span></button>
+    <button class="nav-btn" data-tab="local"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18v11H3zM8 20h8M12 16v4"/></svg><span>One computer</span></button>
+    <button class="nav-btn" data-tab="analysis"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 20V10M12 20V4M19 20v-7"/></svg><span>Analysis</span></button>
+    <button class="nav-btn" data-tab="learn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h7a2 2 0 012 2v12a2 2 0 00-2-2H4zM20 5h-7a2 2 0 00-2 2v12a2 2 0 012-2h7z"/></svg><span>Learn</span></button>
+    <button class="nav-btn" data-tab="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15a3 3 0 100-6 3 3 0 000 6zM19 12a7 7 0 00-.1-1.200l2-1.500-2-3.400-2.300 1a7 7 0 00-2-1.200L14.300 3h-4l-.3 2.700a7 7 0 00-2 1.200l-2.300-1-2 3.400 2 1.500a7 7 0 000 2.400l-2 1.500 2 3.400 2.300-1a7 7 0 002 1.200l.3 2.700h4l.3-2.700a7 7 0 002-1.200l2.300 1 2-3.400-2-1.500c.1-.4.1-.8.1-1.200z"/></svg><span>Settings</span></button>
+    <button class="curgame" id="curgame" hidden><span class="live"></span><div><small>Current game</small><b id="cgname"></b><em id="cgtime"></em></div></button>
+    <div class="side-foot">Free chess,<br>made with Armenian roots.</div>
+  </nav>
+
+  <main class="main">
+    <header class="top"><span id="pagetitle">Home</span><button class="chip" id="chip" data-tab="settings" data-sub="account"><i></i><span id="chiptxt">Guest</span></button></header>
+
+    <!-- Home -->
+    <div id="home" class="tab-content active">
+      <div class="hero">
+        <div class="hero-text">
+          <div class="eyebrow">Free chess · Live games · Bots · Analysis</div>
+          <h1 class="display">PLAY SHARP.<br><span>LEARN FASTER.</span></h1>
+          <p>HayChess is a free chess website built for people who want to improve. Play live opponents, test yourself against bots from 200 to 3200, and study every position.</p>
+          <div class="btn-row">
+            <button class="btn big" data-tab="play">Play Online</button>
+            <button class="btn sec big" data-tab="bots">Play Bots</button>
+          </div>
+        </div>
+        <div id="hboard" class="board"></div>
+      </div>
+      <div class="tiles4">
+        <button class="feat" data-tab="play"><i>01</i><b>Live lobby</b><span>Join an open game or pair up by time control.</span></button>
+        <button class="feat" data-tab="bots"><i>02</i><b>14 bots</b><span>From beginner to master, with human-like delays.</span></button>
+        <button class="feat" data-tab="analysis"><i>03</i><b>Analysis</b><span>Best-move arrows, evaluation bar and move icons.</span></button>
+        <button class="feat" data-tab="learn"><i>04</i><b>Learn</b><span>A guided path from the first pawn move to checkmate.</span></button>
+      </div>
+    </div>
+
+    <!-- Play lobby -->
+    <div id="play" class="tab-content">
+      <p id="pmsg" class="msg"></p>
+      <div id="plobby">
+        <h1 class="display big">CHOOSE AN OPPONENT</h1>
+        <div id="cols" class="cols"></div>
+
+        <h2 class="startttl">Start your game</h2>
+        <div class="startbar">
+          <div class="modes" id="modes">
+            <button class="on" data-mode="human">Human</button>
+            <button data-mode="ai">AI</button>
+            <button data-mode="friend">Friend</button>
+          </div>
+          <div class="mid">
+            <div id="tcbar" class="tcbar"></div>
+            <div id="airow" class="extra" hidden><label>Bot level</label><select id="ailv"></select></div>
+            <div id="friendrow" class="extra" hidden><label>Have a code?</label><input type="text" id="codein" inputmode="numeric" maxlength="6" placeholder="000000" autocomplete="off"><button class="btn sec" id="codego">Join</button></div>
+          </div>
+          <div class="pubbox" id="pubbox"><span>Game type</span><label class="switch"><input type="checkbox" id="privsw"><i></i></label><b id="privlbl">Public</b></div>
+          <button class="startbtn" id="startgame">START<br>GAME</button>
+        </div>
+        <p class="muted hint" id="modehint"></p>
+      </div>
+
+      <div id="pwait" class="panel wait" hidden>
+        <h2 id="wtitle"></h2>
+        <div id="wcode"><p class="muted">Share this code with your opponent</p><div class="codebox" id="wcodebox"></div></div>
+        <p class="muted" id="wtc"></p>
+        <button class="btn sec" id="wcancel">Cancel</button>
+      </div>
+    </div>
+
+    <!-- Bots -->
+    <div id="bots" class="tab-content">
+      <h1 class="display">PLAY BOTS</h1>
+      <div class="panel">
+        <div id="botgrid"></div>
+        <div class="label">Play as</div>
+        <div class="seg" id="botcolor">
+          <button data-bc="w">White</button><button data-bc="r" class="sel">Random</button><button data-bc="b">Black</button>
+        </div>
+        <button class="btn big" id="bot-play">Play</button>
+        <p class="muted small">Engine: <b id="englabel">checking…</b>. Bot ratings are approximate. With Stockfish installed every bot level uses it.</p>
+      </div>
+    </div>
+
+    <!-- One computer -->
+    <div id="local" class="tab-content">
+      <h1 class="display">PLAY ON ONE COMPUTER</h1>
+      <div class="panel localp">
+        <p class="muted">Two players, one screen. Take turns on the same board.</p>
+        <div class="label first">White player</div><input class="txt" id="lname-w" maxlength="16" placeholder="White">
+        <div class="label">Black player</div><input class="txt" id="lname-b" maxlength="16" placeholder="Black">
+        <div class="label">Clock</div>
+        <div class="tcbar small" id="ltc"></div>
+        <button class="btn big" id="local-play">Start game</button>
+      </div>
+    </div>
+
+    <!-- Game (online, bot, one computer) -->
+    <div id="game" class="tab-content">
+      <div class="game-wrap">
+        <div class="game-board">
+          <div class="dcnote" id="dcnote" hidden></div>
+          <div class="strip"><div class="pl"><i class="av" id="oppav">B</i><div><div class="pname" id="oppname"></div><div class="cap" id="oppcap"></div></div></div><span class="clock" id="oppclock"></span></div>
+          <div id="gboard" class="board"></div>
+          <div class="strip"><div class="pl"><i class="av me" id="meav">Y</i><div><div class="pname" id="mename"></div><div class="cap" id="mecap"></div></div></div><span class="clock" id="meclock"></span></div>
+
+          <div id="endm" class="endm" hidden>
+            <div id="confetti"></div>
+            <div class="endcard" id="endcard">
+              <button class="x" id="endx" aria-label="Close">&times;</button>
+              <div class="eyebrow" id="endsub"></div>
+              <h2 id="endtitle"></h2>
+              <div class="rate">
+                <svg viewBox="0 0 84 84"><circle cx="42" cy="42" r="36" class="trk"/><circle cx="42" cy="42" r="36" class="arc" id="arc" transform="rotate(-90 42 42)"/></svg>
+                <div class="rnum"><b id="rnum">--</b><small>/ 100</small></div>
+              </div>
+              <div class="rlabel" id="rlabel">Analysing your game…</div>
+              <div class="rmeta" id="rmeta"></div>
+              <div class="clsbox" id="clsbox"></div>
+              <div class="endbtns">
+                <button class="btn" id="endrematch">Rematch</button>
+                <button class="btn sec" id="endnew">New game</button>
+                <button class="btn sec" id="endan">Open in analysis</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="side-col">
+          <div class="panel game-side">
+            <div class="status" id="gme"></div>
+            <p id="gturn"></p>
+            <div class="gbtns">
+              <button class="btn" id="gresign">Resign</button>
+              <button class="btn sec" id="gdraw">Draw</button>
+              <button class="btn sec" id="gflip" hidden>Flip</button>
+              <button class="btn" id="gagain" hidden>New game</button>
+            </div>
+            <p class="muted small">Not your turn? Pick a piece and a square to queue premoves. Click an empty square to cancel them. Right-click squares for red highlights, right-drag for arrows.</p>
+          </div>
+          <div class="panel movebox">
+            <div class="mv-top"><div class="mv-h">Moves</div><div class="mv-list" id="gmoves"></div></div>
+            <div class="chat"><div class="mv-h">Chat</div><div class="chat-log" id="gchatlog"></div>
+              <div class="chat-in"><input id="gchatin" maxlength="200" placeholder="Say something…" autocomplete="off"><button id="gchatsend" class="btn sec">Send</button></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Analysis -->
+    <div id="analysis" class="tab-content">
+      <h1 class="display">ANALYSIS BOARD</h1>
+      <div class="game-wrap">
+        <div class="evalwrap">
+          <div class="evalcol"><div class="evalbar" id="evalbar" title="White 50%"><div id="evalfill"></div><span id="evaltxt">0.0</span></div><div class="evalpct" id="evalpct">50%</div></div>
+          <div id="aboard" class="board"></div>
+        </div>
+        <div class="side-col">
+          <div class="panel game-side">
+            <div class="status" id="anote"></div>
+            <div class="navarrows">
+              <button id="a-first" title="First move"><svg viewBox="0 0 24 24"><path d="M6 5v14M18 5L9 12l9 7z"/></svg></button>
+              <button id="a-prev" title="Previous move"><svg viewBox="0 0 24 24"><path d="M16 5l-9 7 9 7z"/></svg></button>
+              <button id="a-next" title="Next move"><svg viewBox="0 0 24 24"><path d="M8 5l9 7-9 7z"/></svg></button>
+              <button id="a-last" title="Last move"><svg viewBox="0 0 24 24"><path d="M18 5v14M6 5l9 7-9 7z"/></svg></button>
+            </div>
+            <div class="gbtns">
+              <button class="btn sec" id="a-flip">Flip board</button>
+              <button class="btn sec" id="a-best">Best moves: On</button>
+              <button class="btn sec" id="a-reset">Reset</button>
+            </div>
+            <p class="muted small">Blue arrows show the engine's best moves. Use the arrows (or your keyboard's arrow keys) to step through moves. Right-click to highlight squares, right-drag to draw arrows.</p>
+          </div>
+          <div class="panel movebox">
+            <div class="mv-top"><div class="mv-h">Moves</div><div class="mv-list" id="amoves"></div></div>
+            <div class="chat"><div class="mv-h">Chat</div><div class="chat-log" id="achatlog"></div>
+              <div class="chat-in"><input id="achatin" maxlength="200" placeholder="Chat is for online games" autocomplete="off"><button id="achatsend" class="btn sec">Send</button></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Learn -->
+    <div id="learn" class="tab-content">
+      <div class="learn-head"><h1 class="display">LEARN CHESS</h1><div class="chip big" id="learnstars">&#9733; 0</div></div>
+      <div class="subnav" id="learnnav"><button class="on" data-learn="moves">Moves &amp; Pieces</button><button data-learn="tactics">Tactics</button><button data-learn="openings">Openings</button></div>
+      <div id="learn-moves" class="learnpane"><div id="path-moves" class="path"></div></div>
+      <div id="learn-tactics" class="learnpane" hidden><div id="path-tactics" class="path"></div></div>
+      <div id="learn-openings" class="learnpane" hidden><div class="panel soon"><h2>Openings are coming soon</h2><p class="muted">This section is being prepared. Check the Updates page in Settings to see when it arrives.</p></div></div>
+    </div>
+
+    <!-- Lesson -->
+    <div id="lesson" class="tab-content">
+      <div class="lhead"><button class="lx" id="lback" aria-label="Back">&times;</button><div class="lprog" id="lprog"></div></div>
+      <div class="game-wrap">
+        <div class="game-board"><div id="lboard" class="board"></div></div>
+        <div class="panel lside">
+          <div class="eyebrow" id="ltitle"></div>
+          <h2 id="ltask"></h2>
+          <p class="muted" id="ltext"></p>
+          <div id="ltray" class="tray" hidden></div>
+          <div id="lpager" class="pager" hidden><button class="btn sec" id="lprev">Back</button><span id="lpg"></span><button class="btn" id="lnextpg">Next</button></div>
+          <div class="gbtns" id="lbtns"><button class="btn sec" id="lhint">Hint</button><button class="btn sec" id="lreset">Reset</button><button class="btn" id="lcheck" hidden>Check my board</button></div>
+          <p class="muted small" id="lnote">Press Hint once to see which piece to move, and again to see where it goes.</p>
+        </div>
+      </div>
+      <div class="lbar" id="lbar" hidden><div><b id="lbmsg"></b><small id="lbsub"></small></div><button class="btn" id="lnext">Continue</button></div>
+    </div>
+
+    <!-- Settings -->
+    <div id="settings" class="tab-content">
+      <h1 class="display">SETTINGS</h1>
+      <div class="subnav" id="setnav"><button class="on" data-set="board">Board</button><button data-set="account">Account</button><button data-set="updates">Updates</button><button data-set="about">About</button></div>
+
+      <div id="set-board" class="setpane">
+        <div class="game-wrap studio">
+          <div class="studio-prev"><div id="cboard" class="board"></div><p class="muted small">Live preview: move the pieces to see your changes.</p></div>
+          <div class="studio-ctrl">
+            <div class="panel"><div class="label first">Preset themes</div>
+              <div class="row2"><select id="presetsel"></select><button class="btn sec" id="rand">Randomise</button><button class="btn sec" id="swap">Swap squares</button></div></div>
+            <div id="studio"></div>
+            <div class="panel"><div class="label first">My themes</div>
+              <div class="row2"><input class="txt" id="mtname" maxlength="18" placeholder="Name this theme"><button class="btn" id="mtsave">Save</button></div>
+              <div id="mythemes" class="chips"></div></div>
+            <div class="panel"><div class="label first">Share or restore</div>
+              <textarea class="txt code" id="tcode" rows="2" readonly></textarea>
+              <div class="row2"><button class="btn sec" id="tcopy">Copy code</button><button class="btn sec" id="timport">Import from box</button><button class="btn sec" id="themereset">Reset all</button></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="set-account" class="setpane" hidden>
+        <div id="acc-out" class="panel auth">
+          <div class="seg" id="authseg"><button class="sel" data-a="signup">Sign up</button><button data-a="login">Log in</button></div>
+          <div id="f-signup">
+            <label>Email<input class="txt" id="su-email" type="email" autocomplete="email" placeholder="you@example.com"></label>
+            <label>Username<input class="txt" id="su-user" autocomplete="username" maxlength="20" placeholder="3-20 letters, numbers, _"></label>
+            <label>Password<input class="txt" id="su-pw" type="password" autocomplete="new-password" placeholder="At least 8 characters"></label>
+            <label>Verify password<input class="txt" id="su-pw2" type="password" autocomplete="new-password" placeholder="Type it again"></label>
+            <button class="btn big" id="su-go">Create account</button>
+          </div>
+          <div id="f-login" hidden>
+            <label>Email or username<input class="txt" id="li-id" autocomplete="username"></label>
+            <label>Password<input class="txt" id="li-pw" type="password" autocomplete="current-password"></label>
+            <button class="btn big" id="li-go">Log in</button>
+          </div>
+          <p class="err" id="auth-err"></p>
+          <p class="muted small">Each email can only be used for one account. Your settings and Learn progress are saved on this device even without an account, and follow you across devices when you log in.</p>
+        </div>
+        <div id="acc-in" class="panel auth" hidden>
+          <div class="who"><i class="av big" id="accav">?</i><div><h2 id="accname"></h2><p class="muted" id="accmail"></p><p class="muted small" id="accsince"></p></div></div>
+          <button class="btn sec" id="logout">Log out</button>
+        </div>
+      </div>
+
+      <div id="set-updates" class="setpane" hidden>
+        <p class="muted">Every release of HayChess, newest first.</p>
+        <div class="vers"><article class="ver now"><div class="vtag">1.8</div><div><h3>Engine, accounts and navigation <em>Current</em></h3><ul><li>Stockfish integration now detects the engine files automatically and powers the bots, the analysis best-move arrows and the move-quality icons.</li><li>Accounts are kept in a single readable file, with passwords stored as secure hashes.</li><li>Every page now has its own web address, and the browser Back and Forward buttons work across tabs and sub-tabs.</li><li>Account moved into Settings; Settings gained Updates; Learn gained Moves &amp; Pieces, Tactics and Openings sub-tabs.</li><li>New Board Studio with 25 presets, legal-move colour, opacity, size and style, textures, corner radius, animation speed, saved personal themes and shareable theme codes.</li><li>Learn: a first lesson on ranks, files and the starting position with a board set-up exercise, plus reading lessons with diagrams.</li><li>Learn progress now syncs to your account; the stage-complete animation plays only on the finished section.</li><li>Lost-connection rule: a disconnected player has 30 seconds to return before the opponent is awarded the win, shown with a clock icon on the king.</li><li>Added perpetual check as a draw, rematch at the end of every game, and fixes for the king fall animation, the hint highlight, the clock icon, the move list scroll bars and the transparent tab icon.</li></ul></div></article><article class="ver"><div class="vtag">1.7</div><div><h3>Reliability and play modes</h3><ul><li>Added a browser tab icon, live lobby updates with automatic reconnection, and a one-computer game mode.</li><li>Analysis now shows move-quality icons after each move and blue best-move arrows.</li><li>Introduced the standard draw rules, live arrow preview while dragging, saved settings for guests, a clickable logo, and a Current Game tab with a finish-first rule.</li><li>First Stockfish support.</li></ul></div></article><article class="ver"><div class="vtag">1.6</div><div><h3>Accounts, learning and move review</h3><ul><li>Added accounts, a Settings area, the Learn path with stages and star ratings, and move-quality icons.</li><li>Added a move list with chat, draw offers, a public/private game switch, analysis navigation arrows and piece colour options.</li><li>Pieces held by a player now release when captured; legal-move dots set to 30% opacity.</li></ul></div></article><article class="ver"><div class="vtag">1.5</div><div><h3>Professional redesign</h3><ul><li>Introduced the navy, black and ice colour scheme and a cleaner, more professional layout.</li><li>Added a chess.com-style promotion picker, material-point display, queued premoves, guide arrows, piece animations and board colour customisation.</li><li>Online lobby redesigned to show live open games; bots now reply after one to three seconds.</li><li>Analysis gained an evaluation bar, and finished games receive a 1-100 performance rating with ending animations.</li></ul></div></article><article class="ver"><div class="vtag">1.4</div><div><h3>Sound effects</h3><ul><li>Added sounds for moves, captures, checks, castling, promotion and the start and end of a game.</li></ul></div></article><article class="ver"><div class="vtag">1.3</div><div><h3>Bots and lobby</h3><ul><li>Added 14 bots from 200 to 3200 and rebuilt the Play area as an open-games lobby with time controls.</li><li>Switched the pieces to the reference piece set, refreshed the interface to a flatter style, and removed the Clear Marks button.</li></ul></div></article><article class="ver"><div class="vtag">1.2</div><div><h3>Reference board</h3><ul><li>Restyled the board to the warm tan and brown reference, with matching coordinates and highlights.</li></ul></div></article><article class="ver"><div class="vtag">1.1</div><div><h3>Playable board</h3><ul><li>Rebuilt the board with perfectly square cells, flat piece designs and black-and-white squares.</li><li>Added drag-and-drop, legal-move indicators when a piece is picked up, and red square highlights.</li></ul></div></article><article class="ver"><div class="vtag">1.0</div><div><h3>Launch</h3><ul><li>Released HayChess as a free chess website with Home, Play, Learn and About pages and a fully playable board with premoves, highlights and guide arrows.</li><li>Added public and private online games with six-digit codes, a free-movement analysis board, and an About page explaining the project and the Armenian origin of its name.</li><li>Reorganised the project into separate files for HTML, styling and scripts.</li></ul></div></article></div>
+      </div>
+
+      <div id="set-about" class="setpane" hidden>
+      <h1>About HayChess</h1>
+      <p>HayChess is meant to be a <strong>free chess teaching website</strong> that also lets you play against other people. Chess is one of the best games ever made, and the tools for learning it shouldn't sit behind a subscription.</p>
+
+      <div class="card">
+        <h2>The Name</h2>
+        <p><strong>Hay</strong> (հայ) is the Armenian word for an Armenian person, and Armenians call their country Hayastan. The creator of this site is Armenian, so the name is a nod to that heritage. Armenia also has a proud chess culture. It is the home of world champion Tigran Petrosian, and chess is taught in Armenian schools as a regular subject.</p>
+      </div>
+
+      <div class="card">
+        <h2>Our Mission</h2>
+        <p>Make chess easy to start and rewarding to keep learning. Beginners should be able to learn how the pieces move, then see those ideas used in real tactics and endgames. Experienced players should have a clean place to play and analyze.</p>
+      </div>
+
+      <div class="card">
+        <h2>What You Can Do Today</h2>
+        <p>• Play public or private games online, with a choice of time controls</p>
+        <p>• Play bots from 200 to 3200</p>
+        <p>• Use full chess rules: castling, en passant, promotion, check, checkmate and stalemate</p>
+        <p>• Set premoves, and right-click to highlight squares or draw orange arrows</p>
+        <p>• Explore positions on the analysis board</p>
+      </div>
+
+      <div class="card">
+        <h2>What's Coming</h2>
+        <p>The Learn tab will fill with lessons and puzzles, and the board will get new themes. Game history and accounts are on the wish list too.</p>
+      </div>
+
+      <div class="card">
+        <h2>Tech Stack</h2>
+        <p>• HTML, CSS and vanilla JavaScript on the front end</p>
+        <p>• Node.js with WebSockets for live matches</p>
+      </div>
+    </div>
+    </div>
+
+  </main>
+</div>
+<div id="toasts"></div>
+
+<script src="/js/pieces.js?v=8"></script>
+<script src="/js/chess.js?v=8"></script>
+<script src="/js/sounds.js?v=8"></script>
+<script src="/js/board.js?v=8"></script>
+<script src="/js/engine-client.js?v=8"></script>
+<script src="/js/learn.js?v=8"></script>
+<script src="/js/app.js?v=8"></script>
+</body>
+</html>
